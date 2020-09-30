@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const COMMENT_MESSAGES =
 [
@@ -26,7 +26,7 @@ const randomUsersTemplate = document.querySelector('#picture').content.querySele
 
 const randomInteger = (min, max) => {
   let rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand)
+  return Math.floor(rand);
 };
 
 const randomUser = (i = 0) => {
@@ -34,23 +34,23 @@ const randomUser = (i = 0) => {
     url: "photos/" + i + ".jpg",
     description: "Some description",
     likes: randomInteger(15,200),
-    comments:  {
+    comments: {
       avatar: "img/avatar-6.svg",
       message: COMMENT_MESSAGES[randomInteger(0, COMMENT_MESSAGES.length)],
       name: NAMES[randomInteger(0, NAMES.length - 1)]
     }
-  }
-  return user
+  };
+  return user;
 };
 
 let fragment = document.createDocumentFragment();
 for (let i = 1; i <= PICTURES_QUANTITY; i++) {
 
 
-  let generatedUser = randomUser(i)
-  randomUsersTemplate.querySelector('.picture__img').src = generatedUser.url
-  randomUsersTemplate.querySelector('.picture__comments').textContent = generatedUser.comments.message
-  randomUsersTemplate.querySelector('.picture__likes').textContent = generatedUser.likes
+  let generatedUser = randomUser(i);
+  randomUsersTemplate.querySelector('.picture__img').src = generatedUser.url;
+  randomUsersTemplate.querySelector('.picture__comments').textContent = generatedUser.comments.message;
+  randomUsersTemplate.querySelector('.picture__likes').textContent = generatedUser.likes;
 
   let userELement = randomUsersTemplate.cloneNode(true);
 
