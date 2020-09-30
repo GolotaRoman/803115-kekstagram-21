@@ -33,7 +33,7 @@ const randomUser = (i = 0) => {
   let user = {
     url: `photos/` + i + `.jpg`,
     description: `Some description`,
-    likes: randomInteger(15,200),
+    likes: randomInteger(15, 200),
     comments: {
       avatar: `img/avatar-6.svg`,
       message: COMMENT_MESSAGES[randomInteger(0, COMMENT_MESSAGES.length)],
