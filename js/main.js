@@ -35,17 +35,17 @@ const randomInteger = (min, max) => {
 
 const commentsGenerator = () => {
   const comments = [];
-    for (let i = 0; i < randomInteger(MIN_COMMENTS, MAX_COMMENTS); i++) {
+  for (let i = 0; i < randomInteger(MIN_COMMENTS, MAX_COMMENTS); i++) {
 
     const comment = {
-        avatar: `img/avatar` + randomInteger(0, 6) + `.svg`,
-        message: COMMENT_MESSAGES[randomInteger(0, COMMENT_MESSAGES.length - 1)],
-        name: NAMES[randomInteger(0, NAMES.length - 1)]
-    }
-    comments.push(comment)
+      avatar: `img/avatar` + randomInteger(0, 6) + `.svg`,
+      message: COMMENT_MESSAGES[randomInteger(0, COMMENT_MESSAGES.length - 1)],
+      name: NAMES[randomInteger(0, NAMES.length - 1)]
+    };
+    comments.push(comment);
   }
   return comments;
-}
+};
 
 const randomUser = (i = 0) => {
   const user = {
