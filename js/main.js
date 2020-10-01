@@ -20,6 +20,8 @@ const NAMES =
   `Екатерина`
 ];
 
+const MIN_PICTURE_NUMBER = 0;
+const MAX_PICTURE_NUMBER = 6;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
 const MIN_COMMENTS = 1;
@@ -33,12 +35,12 @@ const randomInteger = (min, max) => {
   return Math.floor(rand);
 };
 
-const commentsGenerator = () => {
+const commentsGenerator = (minComments, maxComments) => {
   const comments = [];
-  for (let i = 0; i < randomInteger(MIN_COMMENTS, MAX_COMMENTS); i++) {
+  for (let i = 0; i < randomInteger(minComments, maxComments); i++) {
 
     const comment = {
-      avatar: `img/avatar` + randomInteger(0, 6) + `.svg`,
+      avatar: `img/avatar` + randomInteger(MIN_PICTURE_NUMBER, MAX_PICTURE_NUMBER) + `.svg`,
       message: COMMENT_MESSAGES[randomInteger(0, COMMENT_MESSAGES.length - 1)],
       name: NAMES[randomInteger(0, NAMES.length - 1)]
     };
@@ -52,7 +54,7 @@ const randomUser = (i = 0) => {
     url: `photos/` + i + `.jpg`,
     description: `Some description`,
     likes: randomInteger(MIN_LIKES, MAX_LIKES),
-    comments: commentsGenerator()
+    comments: commentsGenerator(MIN_COMMENTS, MAX_COMMENTS)
   };
   return user;
 };
