@@ -310,3 +310,4 @@ submitButton.addEventListener(`click`, () => {
     hashtagInput.setCustomValidity(``);
   }
 });
+
