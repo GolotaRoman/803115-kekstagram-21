@@ -85,17 +85,17 @@ const imgPreviev = document.querySelector(`.img-upload__preview`);
 const levelEffectSlider = document.querySelector(`.img-upload__effect-level`);
 const effectsList = document.querySelector(`.effects__list`);
 const textDescription = document.querySelector(`.text__description`);
-const defaultValue = 100;
-const minValue = 25;
+const DEFAULT_VALUE = 100;
+const MIN_VALUE = 25;
 
 const openPopup = () => {
   uploadOverlay.classList.remove(`hidden`);
   document.querySelector(`body`).className = (`.modal-open`);
 
-  scaleControl.value = defaultValue + `%`;
+  scaleControl.value = `${DEFAULT_VALUE}%`;
   document.addEventListener(`keydown`, onPopupEscPress);
 
-  imgPreviev.className = effects[0];
+  imgPreviev.className = `effects__preview--none`;
   levelEffectSlider.classList.add(`hidden`);
 };
 
@@ -134,38 +134,34 @@ controlSmaller.addEventListener(`click`, () => {
 
 const increaseScale = () => {
   let value = 0;
-  if (parseInt(scaleControl.value, 10) < defaultValue && parseInt(scaleControl.value, 10) >= minValue) {
-    value = (parseInt(scaleControl.value, 10) + minValue);
+  if (parseInt(scaleControl.value, 10) < DEFAULT_VALUE && parseInt(scaleControl.value, 10) >= MIN_VALUE) {
+    value = (parseInt(scaleControl.value, 10) + MIN_VALUE);
   }
 
-  if (parseInt(scaleControl.value, 10) < defaultValue) {
-    let scaleValue = scaleControl.value = value + `%`;
-    return scaleValue;
-
+  if (parseInt(scaleControl.value, 10) < DEFAULT_VALUE) {
+    scaleControl.value = `${value}%`;
   } else {
-    return (scaleControl.value = defaultValue + `%`);
+    scaleControl.value = `${DEFAULT_VALUE}%`;
   }
 };
 
 const decreaseScale = () => {
   let value = 0;
 
-  if (parseInt(scaleControl.value, 10) >= minValue) {
-    value = (parseInt(scaleControl.value, 10) - minValue);
+  if (parseInt(scaleControl.value, 10) >= MIN_VALUE) {
+    value = (parseInt(scaleControl.value, 10) - MIN_VALUE);
   }
 
-  if (parseInt(scaleControl.value, 10) > minValue) {
-    let scaleValue = scaleControl.value = value + `%`;
-    return scaleValue;
-
+  if (parseInt(scaleControl.value, 10) > MIN_VALUE) {
+    scaleControl.value = `${value}%`;
   } else {
-    return (scaleControl.value = minValue + `%`);
+    scaleControl.value = `${MIN_VALUE}%`;
   }
 };
 
 const cssValue = () => {
   let intValue = parseInt(scaleControl.value, 10) / 100;
-  return `transform: scale(` + intValue + `)`;
+  return `transform: scale(${intValue})`;
 };
 
 const transformScale = () => {
@@ -173,56 +169,48 @@ const transformScale = () => {
   return value;
 };
 
-const effects = [
-  `effects__preview--none`,
-  `effects__preview--chrome`,
-  `effects__preview--sepia`,
-  `effects__preview--marvin`,
-  `effects__preview--phobos`,
-  `effects__preview--heat`
-];
+const repeatedСode = (evt) => {
+  imgPreviev.className = `effects__preview--${evt.target.value}`;
+  levelEffectSlider.classList.remove(`hidden`);
+  effectLevelPin.style.left = `${effectLevelWidth}px`;
+  effectLevelDepth.style.width = `${effectLevelWidth}px`;
+  scaleControl.value = `${DEFAULT_VALUE}%`;
+};
 
 effectsList.addEventListener(`change`, (evt) => {
-  if (evt.target.value === `none`) {
-    imgPreviev.className = effects[0];
-    levelEffectSlider.classList.add(`hidden`);
-    imgPreviev.style.cssText = ``;
-    scaleControl.value = defaultValue + `%`;
-  } else if (evt.target.value === `chrome`) {
-    imgPreviev.className = effects[1];
-    levelEffectSlider.classList.remove(`hidden`);
-    imgPreviev.style.cssText = `filter: grayscale(` + 1 + `)`;
-    effectLevelPin.style.left = effectLevelWidth + `px`;
-    effectLevelDepth.style.width = effectLevelWidth + `px`;
-    scaleControl.value = defaultValue + `%`;
-  } else if (evt.target.value === `sepia`) {
-    imgPreviev.className = effects[2];
-    levelEffectSlider.classList.remove(`hidden`);
-    imgPreviev.style.cssText = `filter: sepia(` + 1 + `)`;
-    effectLevelPin.style.left = effectLevelWidth + `px`;
-    effectLevelDepth.style.width = effectLevelWidth + `px`;
-    scaleControl.value = defaultValue + `%`;
-  } else if (evt.target.value === `marvin`) {
-    imgPreviev.className = effects[3];
-    levelEffectSlider.classList.remove(`hidden`);
-    imgPreviev.style.cssText = `filter: invert(` + 100 + `%)`;
-    effectLevelPin.style.left = effectLevelWidth + `px`;
-    effectLevelDepth.style.width = effectLevelWidth + `px`;
-    scaleControl.value = defaultValue + `%`;
-  } else if (evt.target.value === `phobos`) {
-    imgPreviev.className = effects[4];
-    levelEffectSlider.classList.remove(`hidden`);
-    imgPreviev.style.cssText = `filter: blur(` + 3 + `px)`;
-    effectLevelPin.style.left = effectLevelWidth + `px`;
-    effectLevelDepth.style.width = effectLevelWidth + `px`;
-    scaleControl.value = defaultValue + `%`;
-  } else if (evt.target.value === `heat`) {
-    imgPreviev.className = effects[5];
-    levelEffectSlider.classList.remove(`hidden`);
-    imgPreviev.style.cssText = `filter: brightness(` + 3 + `)`;
-    effectLevelPin.style.left = effectLevelWidth + `px`;
-    effectLevelDepth.style.width = effectLevelWidth + `px`;
-    scaleControl.value = defaultValue + `%`;
+  switch (evt.target.value) {
+
+    case `none`:
+      imgPreviev.className = `effects__preview--${evt.target.value}`;
+      levelEffectSlider.classList.add(`hidden`);
+      imgPreviev.style.cssText = ``;
+      scaleControl.value = `${DEFAULT_VALUE}%`;
+      break;
+
+    case `chrome`:
+      imgPreviev.style.cssText = `filter: grayscale(${1})`;
+      repeatedСode(evt);
+      break;
+
+    case `sepia`:
+      imgPreviev.style.cssText = `filter: sepia(${1})`;
+      repeatedСode(evt);
+      break;
+
+    case `marvin`:
+      imgPreviev.style.cssText = `filter: invert(${100}%)`;
+      repeatedСode(evt);
+      break;
+
+    case `phobos`:
+      imgPreviev.style.cssText = `filter: blur(${3}px)`;
+      repeatedСode(evt);
+      break;
+
+    case `heat`:
+      imgPreviev.style.cssText = `filter: brightness(${3})`;
+      repeatedСode(evt);
+      break;
   }
 });
 
@@ -233,29 +221,40 @@ const effectLevelDepth = document.querySelector(`.effect-level__depth`);
 const effectLevelWidth = 450;
 
 effectLevelLine.addEventListener(`mousedown`, (evt) => {
-  effectLevelPin.style.left = evt.offsetX + `px`;
-  effectLevelDepth.style.width = evt.offsetX + `px`;
-  effectLevelValue.value = Math.round(parseInt(effectLevelPin.style.left, 10) / 4.5);
+  effectLevelPin.style.left = `${evt.offsetX}px`;
+  effectLevelDepth.style.width = `${evt.offsetX}px`;
+  effectLevelValue.value = Math.round(parseInt(effectLevelPin.style.left, 10) / (effectLevelWidth / DEFAULT_VALUE));
   applyingEffect();
 });
 
-
 const applyingEffect = () => {
-  if (imgPreviev.className === `effects__preview--chrome`) {
-    let effectValue = effectLevelValue.value / 100;
-    imgPreviev.style.cssText = `filter: grayscale(` + effectValue + `)`;
-  } else if (imgPreviev.className === `effects__preview--sepia`) {
-    let effectValue = effectLevelValue.value / 100;
-    imgPreviev.style.cssText = `filter: sepia(` + effectValue + `)`;
-  } else if (imgPreviev.className === `effects__preview--marvin`) {
-    let effectValue = effectLevelValue.value + `%`;
-    imgPreviev.style.cssText = `filter: invert(` + effectValue + `)`;
-  } else if (imgPreviev.className === `effects__preview--phobos`) {
-    let effectValue = Math.floor(effectLevelValue.value / 33);
-    imgPreviev.style.cssText = `filter: blur(` + effectValue + `px)`;
-  } else if (imgPreviev.className === `effects__preview--heat`) {
-    let effectValue = Math.floor(effectLevelValue.value / 33);
-    imgPreviev.style.cssText = `filter: brightness(` + effectValue + `)`;
+  let effectValue = ``;
+  switch (imgPreviev.className) {
+
+    case `effects__preview--chrome`:
+      effectValue = effectLevelValue.value / 100;
+      imgPreviev.style.cssText = `filter: grayscale(${effectValue})`;
+      break;
+
+    case `effects__preview--sepia`:
+      effectValue = effectLevelValue.value / 100;
+      imgPreviev.style.cssText = `filter: sepia(${effectValue})`;
+      break;
+
+    case `effects__preview--marvin`:
+      effectValue = `${effectLevelValue.value}%`;
+      imgPreviev.style.cssText = `filter: invert(${effectValue})`;
+      break;
+
+    case `effects__preview--phobos`:
+      effectValue = Math.floor(effectLevelValue.value / 33);
+      imgPreviev.style.cssText = `filter: blur(${effectValue}px)`;
+      break;
+
+    case `effects__preview--heat`:
+      effectValue = Math.floor(effectLevelValue.value / 33);
+      imgPreviev.style.cssText = `filter: brightness(${effectValue})`;
+      break;
   }
 };
 
@@ -285,7 +284,7 @@ submitButton.addEventListener(`click`, () => {
     } else if (hashArr[i].length < MIN_HASHTAGLENGTH) {
       errors++;
       hashtagInput.setCustomValidity(`Хэштег не может состоять только из символа #`);
-    } else if (permissibleStems.test(hashArr[i]) === false) {
+    } else if (!permissibleStems.test(hashArr[i])) {
       errors++;
       hashtagInput.setCustomValidity(`Введен запрещенный символ`);
     } else if (hashArr[i].length > MAX_HASHTTAGLENGTH) {
@@ -294,9 +293,9 @@ submitButton.addEventListener(`click`, () => {
     }
   }
 
-  for (let m = 0; m < hashArr.length; m++) {
-    for (let i = 0; i < hashArr.length; i++) {
-      if (hashArr[m].toLowerCase() === hashArr[i].toLowerCase()) {
+  for (let i = 0; i < hashArr.length; i++) {
+    for (let j = 0; j < hashArr.length; j++) {
+      if (hashArr[j].includes(hashArr[j])) {
         count++;
       }
     }
