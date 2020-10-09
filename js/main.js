@@ -87,6 +87,7 @@ const effectsList = document.querySelector(`.effects__list`);
 const textDescription = document.querySelector(`.text__description`);
 const DEFAULT_VALUE = 100;
 const MIN_VALUE = 25;
+const filtersMaxValue = [1, `100%`, `3px`, 3];
 
 const openPopup = () => {
   uploadOverlay.classList.remove(`hidden`);
@@ -169,7 +170,7 @@ const transformScale = () => {
   return value;
 };
 
-const repeatedСode = (evt) => {
+const getDefaultValueEffectLine = (evt) => {
   imgPreviev.className = `effects__preview--${evt.target.value}`;
   levelEffectSlider.classList.remove(`hidden`);
   effectLevelPin.style.left = `${effectLevelWidth}px`;
@@ -188,28 +189,28 @@ effectsList.addEventListener(`change`, (evt) => {
       break;
 
     case `chrome`:
-      imgPreviev.style.cssText = `filter: grayscale(${1})`;
-      repeatedСode(evt);
+      imgPreviev.style.cssText = `filter: grayscale(${filtersMaxValue[0]})`;
+      getDefaultValueEffectLine(evt);
       break;
 
     case `sepia`:
-      imgPreviev.style.cssText = `filter: sepia(${1})`;
-      repeatedСode(evt);
+      imgPreviev.style.cssText = `filter: sepia(${filtersMaxValue[0]})`;
+      getDefaultValueEffectLine(evt);
       break;
 
     case `marvin`:
-      imgPreviev.style.cssText = `filter: invert(${100}%)`;
-      repeatedСode(evt);
+      imgPreviev.style.cssText = `filter: invert(${filtersMaxValue[1]})`;
+      getDefaultValueEffectLine(evt);
       break;
 
     case `phobos`:
-      imgPreviev.style.cssText = `filter: blur(${3}px)`;
-      repeatedСode(evt);
+      imgPreviev.style.cssText = `filter: blur(${filtersMaxValue[2]})`;
+      getDefaultValueEffectLine(evt);
       break;
 
     case `heat`:
-      imgPreviev.style.cssText = `filter: brightness(${3})`;
-      repeatedСode(evt);
+      imgPreviev.style.cssText = `filter: brightness(${filtersMaxValue[3]})`;
+      getDefaultValueEffectLine(evt);
       break;
   }
 });
