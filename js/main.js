@@ -87,7 +87,13 @@ const effectsList = document.querySelector(`.effects__list`);
 const textDescription = document.querySelector(`.text__description`);
 const DEFAULT_VALUE = 100;
 const MIN_VALUE = 25;
-const filtersMaxValue = [1, `100%`, `3px`, 3];
+const filtersMaxValues = {
+  chrome: 1,
+  sepia: 1,
+  marvin: `100%`,
+  phobos: `3px`,
+  heat: 3
+};
 
 const openPopup = () => {
   uploadOverlay.classList.remove(`hidden`);
@@ -189,27 +195,27 @@ effectsList.addEventListener(`change`, (evt) => {
       break;
 
     case `chrome`:
-      imgPreviev.style.cssText = `filter: grayscale(${filtersMaxValue[0]})`;
+      imgPreviev.style.cssText = `filter: grayscale(${filtersMaxValues.chrome})`;
       getDefaultValueEffectLine(evt);
       break;
 
     case `sepia`:
-      imgPreviev.style.cssText = `filter: sepia(${filtersMaxValue[0]})`;
+      imgPreviev.style.cssText = `filter: sepia(${filtersMaxValues.sepia})`;
       getDefaultValueEffectLine(evt);
       break;
 
     case `marvin`:
-      imgPreviev.style.cssText = `filter: invert(${filtersMaxValue[1]})`;
+      imgPreviev.style.cssText = `filter: invert(${filtersMaxValues.marvin})`;
       getDefaultValueEffectLine(evt);
       break;
 
     case `phobos`:
-      imgPreviev.style.cssText = `filter: blur(${filtersMaxValue[2]})`;
+      imgPreviev.style.cssText = `filter: blur(${filtersMaxValues.phobos})`;
       getDefaultValueEffectLine(evt);
       break;
 
     case `heat`:
-      imgPreviev.style.cssText = `filter: brightness(${filtersMaxValue[3]})`;
+      imgPreviev.style.cssText = `filter: brightness(${filtersMaxValues.heat})`;
       getDefaultValueEffectLine(evt);
       break;
   }
