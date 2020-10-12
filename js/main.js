@@ -74,3 +74,247 @@ for (let i = 1; i <= PICTURES_QUANTITY; i++) {
 }
 
 similarElement.appendChild(fragment);
+
+const buttonOpen = document.querySelector(`#upload-file`);
+const buttonClose = document.querySelector(`.img-upload__cancel`);
+const uploadOverlay = document.querySelector(`.img-upload__overlay`);
+const controlSmaller = document.querySelector(`.scale__control--smaller`);
+const controlBigger = document.querySelector(`.scale__control--bigger`);
+const scaleControl = document.querySelector(`.scale__control--value`);
+const imgPreviev = document.querySelector(`.img-upload__preview`);
+const levelEffectSlider = document.querySelector(`.img-upload__effect-level`);
+const effectsList = document.querySelector(`.effects__list`);
+const textDescription = document.querySelector(`.text__description`);
+const DEFAULT_VALUE = 100;
+const MIN_VALUE = 25;
+const filtersMaxValues = {
+  chrome: 1,
+  sepia: 1,
+  marvin: `100%`,
+  phobos: `3px`,
+  heat: 3
+};
+
+const openPopup = () => {
+  uploadOverlay.classList.remove(`hidden`);
+  document.querySelector(`body`).className = (`.modal-open`);
+
+  scaleControl.value = `${DEFAULT_VALUE}%`;
+  document.addEventListener(`keydown`, onPopupEscPress);
+
+  imgPreviev.className = `effects__preview--none`;
+  levelEffectSlider.classList.add(`hidden`);
+};
+
+const closePopup = () => {
+  uploadOverlay.classList.add(`hidden`);
+  document.querySelector(`body`).className = (``);
+  buttonOpen.value = ``;
+
+  document.removeEventListener(`keydown`, onPopupEscPress);
+};
+
+const onPopupEscPress = (evt) => {
+  if (evt.key === `Escape` && evt.target !== hashtagInput && evt.target !== textDescription) {
+    evt.preventDefault();
+    closePopup();
+  }
+};
+
+buttonOpen.addEventListener(`change`, () => {
+  openPopup();
+});
+
+buttonClose.addEventListener(`click`, () => {
+  closePopup();
+});
+
+controlBigger.addEventListener(`click`, () => {
+  increaseScale();
+  transformScale();
+});
+
+controlSmaller.addEventListener(`click`, () => {
+  decreaseScale();
+  transformScale();
+});
+
+const increaseScale = () => {
+  let value = 0;
+  if (parseInt(scaleControl.value, 10) < DEFAULT_VALUE && parseInt(scaleControl.value, 10) >= MIN_VALUE) {
+    value = (parseInt(scaleControl.value, 10) + MIN_VALUE);
+  }
+
+  if (parseInt(scaleControl.value, 10) < DEFAULT_VALUE) {
+    scaleControl.value = `${value}%`;
+  } else {
+    scaleControl.value = `${DEFAULT_VALUE}%`;
+  }
+};
+
+const decreaseScale = () => {
+  let value = 0;
+
+  if (parseInt(scaleControl.value, 10) >= MIN_VALUE) {
+    value = (parseInt(scaleControl.value, 10) - MIN_VALUE);
+  }
+
+  if (parseInt(scaleControl.value, 10) > MIN_VALUE) {
+    scaleControl.value = `${value}%`;
+  } else {
+    scaleControl.value = `${MIN_VALUE}%`;
+  }
+};
+
+const cssValue = () => {
+  let intValue = parseInt(scaleControl.value, 10) / 100;
+  return `transform: scale(${intValue})`;
+};
+
+const transformScale = () => {
+  let value = imgPreviev.style.cssText = cssValue();
+  return value;
+};
+
+const getDefaultValueEffectLine = (evt) => {
+  imgPreviev.className = `effects__preview--${evt.target.value}`;
+  levelEffectSlider.classList.remove(`hidden`);
+  effectLevelPin.style.left = `${effectLevelWidth}px`;
+  effectLevelDepth.style.width = `${effectLevelWidth}px`;
+  scaleControl.value = `${DEFAULT_VALUE}%`;
+};
+
+effectsList.addEventListener(`change`, (evt) => {
+  switch (evt.target.value) {
+
+    case `none`:
+      imgPreviev.className = `effects__preview--${evt.target.value}`;
+      levelEffectSlider.classList.add(`hidden`);
+      imgPreviev.style.cssText = ``;
+      scaleControl.value = `${DEFAULT_VALUE}%`;
+      break;
+
+    case `chrome`:
+      imgPreviev.style.cssText = `filter: grayscale(${filtersMaxValues.chrome})`;
+      getDefaultValueEffectLine(evt);
+      break;
+
+    case `sepia`:
+      imgPreviev.style.cssText = `filter: sepia(${filtersMaxValues.sepia})`;
+      getDefaultValueEffectLine(evt);
+      break;
+
+    case `marvin`:
+      imgPreviev.style.cssText = `filter: invert(${filtersMaxValues.marvin})`;
+      getDefaultValueEffectLine(evt);
+      break;
+
+    case `phobos`:
+      imgPreviev.style.cssText = `filter: blur(${filtersMaxValues.phobos})`;
+      getDefaultValueEffectLine(evt);
+      break;
+
+    case `heat`:
+      imgPreviev.style.cssText = `filter: brightness(${filtersMaxValues.heat})`;
+      getDefaultValueEffectLine(evt);
+      break;
+  }
+});
+
+const effectLevelPin = document.querySelector(`.effect-level__pin`);
+const effectLevelValue = document.querySelector(`.effect-level__value`);
+const effectLevelLine = document.querySelector(`.effect-level__line`);
+const effectLevelDepth = document.querySelector(`.effect-level__depth`);
+const effectLevelWidth = 450;
+
+effectLevelLine.addEventListener(`mousedown`, (evt) => {
+  effectLevelPin.style.left = `${evt.offsetX}px`;
+  effectLevelDepth.style.width = `${evt.offsetX}px`;
+  effectLevelValue.value = Math.round(parseInt(effectLevelPin.style.left, 10) / (effectLevelWidth / DEFAULT_VALUE));
+  applyingEffect();
+});
+
+const applyingEffect = () => {
+  let effectValue = ``;
+  switch (imgPreviev.className) {
+
+    case `effects__preview--chrome`:
+      effectValue = effectLevelValue.value / 100;
+      imgPreviev.style.cssText = `filter: grayscale(${effectValue})`;
+      break;
+
+    case `effects__preview--sepia`:
+      effectValue = effectLevelValue.value / 100;
+      imgPreviev.style.cssText = `filter: sepia(${effectValue})`;
+      break;
+
+    case `effects__preview--marvin`:
+      effectValue = `${effectLevelValue.value}%`;
+      imgPreviev.style.cssText = `filter: invert(${effectValue})`;
+      break;
+
+    case `effects__preview--phobos`:
+      effectValue = Math.floor(effectLevelValue.value / 33);
+      imgPreviev.style.cssText = `filter: blur(${effectValue}px)`;
+      break;
+
+    case `effects__preview--heat`:
+      effectValue = Math.floor(effectLevelValue.value / 33);
+      imgPreviev.style.cssText = `filter: brightness(${effectValue})`;
+      break;
+  }
+};
+
+const hashtagInput = document.querySelector(`.text__hashtags`);
+const MAX_HASHTAGSQUANTITY = 5;
+const MIN_HASHTAGLENGTH = 2;
+const MAX_HASHTTAGLENGTH = 20;
+const submitButton = document.querySelector(`.img-upload__submit`);
+
+submitButton.addEventListener(`click`, () => {
+  const hashtagValue = document.querySelector(`.text__hashtags`).value;
+  const hashtagSeparation = /\s*\s\s*/;
+  const permissibleStems = /^#[A-Za-zА-Яа-я0-9]+$/i;
+  const hashArr = hashtagValue.split(hashtagSeparation);
+  let count = 0;
+  let errors = 0;
+
+  if (hashArr.length > MAX_HASHTAGSQUANTITY) {
+    errors++;
+    hashtagInput.setCustomValidity(`Максимальное количество хэштэгов 5`);
+  }
+
+  for (let i = 0; i < hashArr.length; i++) {
+    if (hashArr[i][0] !== `#`) {
+      errors++;
+      hashtagInput.setCustomValidity(`Хэштег должен начинаться с символа #`);
+    } else if (hashArr[i].length < MIN_HASHTAGLENGTH) {
+      errors++;
+      hashtagInput.setCustomValidity(`Хэштег не может состоять только из символа #`);
+    } else if (!permissibleStems.test(hashArr[i])) {
+      errors++;
+      hashtagInput.setCustomValidity(`Введен запрещенный символ`);
+    } else if (hashArr[i].length > MAX_HASHTTAGLENGTH) {
+      errors++;
+      hashtagInput.setCustomValidity(`Хэштег не может состоять более чем из 20 символов`);
+    }
+  }
+
+  for (let i = 0; i < hashArr.length; i++) {
+    for (let j = 0; j < hashArr.length; j++) {
+      if (hashArr[j].includes(hashArr[j])) {
+        count++;
+      }
+    }
+  }
+
+  if (hashArr.length !== count) {
+    errors++;
+    hashtagInput.setCustomValidity(`Не может быть два и более одинаковых хэш-тэгов`);
+  }
+
+  if (errors === 0 || hashtagValue === ``) {
+    hashtagInput.setCustomValidity(``);
+  }
+});
+
