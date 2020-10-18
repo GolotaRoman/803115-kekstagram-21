@@ -8,13 +8,14 @@
   const imgPreviev = document.querySelector(`.img-upload__preview`);
   const levelEffectSlider = document.querySelector(`.img-upload__effect-level`);
   const textDescription = document.querySelector(`.text__description`);
+  const DEFAULT_VALUE = 100;
 
 
   const openPopup = () => {
     uploadOverlay.classList.remove(`hidden`);
     document.querySelector(`body`).className = (`.modal-open`);
 
-    scaleControl.value = `${window.variables.DEFAULT_VALUE}%`;
+    scaleControl.value = `${DEFAULT_VALUE}%`;
     document.addEventListener(`keydown`, onPopupEscPress);
 
     imgPreviev.className = `effects__preview--none`;

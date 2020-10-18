@@ -4,6 +4,9 @@
 
   const controlSmaller = document.querySelector(`.scale__control--smaller`);
   const controlBigger = document.querySelector(`.scale__control--bigger`);
+  const imgPreviev = document.querySelector(`.img-upload__preview`);
+  const DEFAULT_VALUE = 100;
+  const MIN_VALUE = 25;
 
   controlBigger.addEventListener(`click`, () => {
     increaseScale();
@@ -17,28 +20,28 @@
 
   const increaseScale = () => {
     let value = 0;
-    if (parseInt(window.variables.scaleControl.value, 10) < window.variables.DEFAULT_VALUE && parseInt(window.variables.scaleControl.value, 10) >= window.variables.MIN_VALUE) {
-      value = (parseInt(window.variables.scaleControl.value, 10) + window.variables.MIN_VALUE);
+    if (parseInt(window.variables.scaleControl.value, 10) < DEFAULT_VALUE && parseInt(window.variables.scaleControl.value, 10) >= MIN_VALUE) {
+      value = (parseInt(window.variables.scaleControl.value, 10) + MIN_VALUE);
     }
 
-    if (parseInt(window.variables.scaleControl.value, 10) < window.variables.DEFAULT_VALUE) {
+    if (parseInt(window.variables.scaleControl.value, 10) < DEFAULT_VALUE) {
       window.variables.scaleControl.value = `${value}%`;
     } else {
-      window.variables.scaleControl.value = `${window.variables.DEFAULT_VALUE}%`;
+      window.variables.scaleControl.value = `${DEFAULT_VALUE}%`;
     }
   };
 
   const decreaseScale = () => {
     let value = 0;
 
-    if (parseInt(window.variables.scaleControl.value, 10) >= window.variables.MIN_VALUE) {
-      value = (parseInt(window.variables.scaleControl.value, 10) - window.variables.MIN_VALUE);
+    if (parseInt(window.variables.scaleControl.value, 10) >= MIN_VALUE) {
+      value = (parseInt(window.variables.scaleControl.value, 10) - MIN_VALUE);
     }
 
-    if (parseInt(window.variables.scaleControl.value, 10) > window.variables.MIN_VALUE) {
+    if (parseInt(window.variables.scaleControl.value, 10) > MIN_VALUE) {
       window.variables.scaleControl.value = `${value}%`;
     } else {
-      window.variables.scaleControl.value = `${window.variables.MIN_VALUE}%`;
+      window.variables.scaleControl.value = `${MIN_VALUE}%`;
     }
   };
 
@@ -48,7 +51,7 @@
   };
 
   const transformScale = () => {
-    let value = window.variables.imgPreviev.style.cssText = cssValue();
+    let value = imgPreviev.style.cssText = cssValue();
     return value;
   };
 })();
