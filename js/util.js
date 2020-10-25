@@ -8,6 +8,6 @@
 
 
   window.util = {
-    randomInteger: randomInteger,
+    randomInteger,
   };
 })();

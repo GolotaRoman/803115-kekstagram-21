@@ -54,6 +54,6 @@
   };
 
   window.moch = {
-    randomUser: randomUser
+    randomUser
   };
 })();

@@ -5,7 +5,7 @@
   const scaleControl = document.querySelector(`.scale__control--value`);
 
   window.variables = {
-    hashtagInput: hashtagInput,
-    scaleControl: scaleControl,
+    hashtagInput,
+    scaleControl
   };
 })();
