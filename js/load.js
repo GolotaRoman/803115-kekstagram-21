@@ -7,28 +7,30 @@
   const STATUS_OK = 200;
   const filters = document.querySelector(`.img-filters`);
 
-  window.load = () => {
+  const Success = (users) => {
 
-    const onError = (errorMessage) => {
-      const node = document.createElement(`div`);
-      node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
-      node.style.position = `absolute`;
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.fontSize = `30px`;
+    if (window.filter === `all`) {
+      window.util.render(users);
+    }
 
-      node.textContent = errorMessage;
-      document.body.insertAdjacentElement(`afterbegin`, node);
-    };
+    window.resultFromServer = users;
 
-    const onSuccess = (users) => {
+    filters.classList.remove(`img-filters--inactive`);
+  };
 
-      if (window.filter === `all`) {
-        window.util.render(users);
-      }
+  const Error = (errorMessage) => {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `30px`;
 
-      filters.classList.remove(`img-filters--inactive`);
-    };
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
+
+  const load = (onSuccess, onError) => {
 
     let xhr = new XMLHttpRequest();
 
@@ -37,11 +39,7 @@
     xhr.addEventListener(`load`, function () {
       if (xhr.status === STATUS_OK) {
         onSuccess(xhr.response);
-        const resultFromServer = xhr.response;
 
-        window.load = {
-          resultFromServer
-        };
       } else {
         onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
       }
@@ -60,6 +58,6 @@
 
   };
 
-  window.load();
+  load(Success, Error);
 
 })();
