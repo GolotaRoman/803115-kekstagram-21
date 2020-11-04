@@ -66,4 +66,5 @@
     window.filter = `all`;
     removePictures(evt.target);
   });
+
 })();
