@@ -23,19 +23,20 @@
   const defaultFilter = document.querySelector(`#filter-default`);
 
   const renderPictures = (users) => {
+    const dataCopy = users.slice();
     switch (window.filter) {
 
       case `all`:
-        window.util.render(users);
+        window.util.render(dataCopy);
         break;
 
       case `random`:
-        const randomUsers = users.sort(() => Math.random() - Math.random()).slice(0, 10);
+        const randomUsers = dataCopy.sort(() => Math.random() - Math.random()).slice(0, 10);
         window.util.render(randomUsers);
         break;
 
       case `discussed`:
-        const discussedUsers = users.sort((a, b) => b.comments.length - a.comments.length);
+        const discussedUsers = dataCopy.sort((a, b) => b.comments.length - a.comments.length);
         window.util.render(discussedUsers);
         break;
     }
